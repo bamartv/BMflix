@@ -3,7 +3,7 @@ name: Generate Movies Page
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 5 * * *"   # Ogni giorno alle 5:00 UTC
+    - cron: "*/59 * * * *"   # Ogni giorno alle 5:00 UTC
 
 jobs:
   build:
