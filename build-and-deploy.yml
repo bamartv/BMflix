@@ -1,0 +1,40 @@
+name: Generate Movies Page
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * *"   # Ogni giorno alle 5:00 UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run generator
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}   # ✅ usa la chiave TMDb
+        run: |
+          python generate_movies_page.py
+
+      - name: Check generated HTML
+        run: |
+          ls -lh movies_miniplayers.html
+          head -n 20 movies_miniplayers.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
