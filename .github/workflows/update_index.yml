@@ -2,7 +2,7 @@ name: Aggiorna index.html
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+  - cron: "*/59 * * * *"
   workflow_dispatch:
 
 jobs:
